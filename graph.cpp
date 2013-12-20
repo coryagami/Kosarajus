@@ -100,6 +100,6 @@ DisjointSet Graph::findSCC()
         // find SCC of v and store it in GSetRef
 		if (visited[v] == false)
         		gr.DFS(v, visited, GSetRef);
-    }
+    	}
 	return GSet;
 }
