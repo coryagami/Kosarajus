@@ -1,0 +1,46 @@
+# Cory Agami
+# 10/27/13
+# Assignment 2 Report
+
+This assignment was complex in that I had to implement many different strategies to handle the task of finding and 
+analyzing the largest weakly connected component (WCC) and stromgly connected component (SCC). Also I have never before 
+worked with a file so large, so I had to make sure my implementation wasn't too complex in any area as that could increase 
+the runtime significantly.
+
+In the beginning I had the idea to use an edge struct with two ints, store the edges by running through each line of the 
+file, and then using a list<vertex> where each vertex contained ints number, and an adjacency list<vertex>. Then iterate 
+through that in the DFS but I  was having trouble because the vertices in the adjaceny list of a vertex didn;t correspond 
+in anyway to the vertex of same number and it's adjacency list. In retrospect pointers could've helped but my 
+implementation at that stage included iterating through the whole vertex list each time to find the childs children. 
+Basically my complexity was way too high.
+
+At this point I was performing everything in one main cpp file. I came across a simple implementation of a graph class 
+from a previous assignment and decided to have a main graph object which contained the vertices and edges and basic 
+functions I would need later, like transposing the graph.
+
+Also I had the idea to use vector<vertex> where the adjacency lists just contained ints that correspond to the index of 
+that vertex in the vector. This worked well but only for graphs whose greatest vertex number doesnt exceed the number of 
+vertices total in the graph. ie no 'skips' between vertices. I got this method to work with the DFS fairly simply but was 
+having trouble finding the SCC using Kosarajus algorithm and the WCC. 
+
+Then after glossing over the lecture notes from the graph lessons, I rediscovered disjoint sets, which sounded exactly 
+like what I needed. So I created a Disjoint Set class that keeps track of each sets size (number of vertices). Creating 
+the WCC's we're very easy to create using DS's. I just made an initial Set with all vertices in their own set by 
+themselves, then for each edge I read in, I merged those 2 sets. Then I wrote another function of Disjoint Set to iterate 
+through all sets and find the largest set, then the representative of that set. Then I iterated once again through all the 
+edges (using the edges vector) and ran a find() function on the first vector of the edge, and if it's representative was 
+equal to the largest sets representative, I incremented the edge count for the largest WCC.
+
+That gave me all teh data for the WCC, for the SCC I ran Kosarajus algorithm (via 2 DFS and a graph transpose) and created 
+a new Disjoint Set with all vertices in individual sets once again. Then everytime I visited a child node that hadn't been 
+explored inside the DFS function, I merged the parent and the child node sets. Then similarly to the WCC, I used 
+getmaxSetSize() to find the largest of all the SCC's produced by Kosarajus algorithm, then getmaxSetSizeNode() to find the 
+representative node of that largest SCC. Then I utilized the same method for counting the edges as the WCC, except I made 
+sure that for each edge BOTH the vertex1 and vertex2's set representatives (find()) were equal to the getmaxSetSizeNode(), 
+and if they were I incremented the largest SCC edge count. 
+
+This give the number of nodes and edges in both the largest SCC and WCC for a given graph. (As well as the total number of 
+WCC's and SCC's, if you're into that sort of thing...)
+
+Also by utilizing Disjoint Sets and vector indexing for iterating through child vertices, I brought teh complexity way 
+down and the whole program can read Stanfords 2.5 million edge graph in under 10 seconds. Woo for Disjoint Sets!
