@@ -20,12 +20,12 @@ void Graph::DFS(int v, bool visited[], DisjointSet* GSetRef)
     list<int>::iterator i;
     for (i = adj[v].begin(); i != adj[v].end(); ++i)
 	{
-        if (!visited[*i])
+        	if (!visited[*i])
 		{
 			// merging the parent and child that are part of the current SCC
 			// using a reference to the disjoint set
 			GSetRef->merge(v, *i);
-            DFS(*i, visited, GSetRef);
+            		DFS(*i, visited, GSetRef);
 		}
 	}
 }
@@ -48,7 +48,7 @@ Graph Graph::getTranspose()
  
 void Graph::addEdge(int v, int w)
 {
-	// Add w to v’s adj list
+	// Add w to vï¿½s adj list
 	adj[v].push_back(w); 
 }
  
@@ -63,7 +63,7 @@ void Graph::fillOrder(int v, bool visited[], stack<int> &Stack)
 			fillOrder(*i, visited, Stack);
  
     // v has now been explored, push it to stack for Kosarajus algorithm
-		Stack.push(v);
+	Stack.push(v);
 }
  
 DisjointSet Graph::findSCC()
@@ -99,7 +99,7 @@ DisjointSet Graph::findSCC()
  
         // find SCC of v and store it in GSetRef
 		if (visited[v] == false)
-            gr.DFS(v, visited, GSetRef);
+        		gr.DFS(v, visited, GSetRef);
     }
 	return GSet;
 }
