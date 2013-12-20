@@ -25,7 +25,7 @@ void Graph::DFS(int v, bool visited[], DisjointSet* GSetRef)
 			// merging the parent and child that are part of the current SCC
 			// using a reference to the disjoint set
 			GSetRef->merge(v, *i);
-            		DFS(*i, visited, GSetRef);
+                        DFS(*i, visited, GSetRef);
 		}
 	}
 }
